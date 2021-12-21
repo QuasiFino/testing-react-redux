@@ -17,27 +17,25 @@ it('has a text area and a button', () => {
   expect(wrapped.find('button').length).toEqual(1);
 });
 
-it('has a text area that a user can type in', () => {
-  wrapped.find('textarea').simulate('change', {
-    target: { value: 'new comment' } //(event) passed to handlleChange
+describe('the text area', () => {
+  beforeEach(() => {
+    wrapped.find('textarea').simulate('change', {
+      target: { value: 'new comment' } //(event) passed to handlleChange
+    });
+    wrapped.update(); //forcing the component to rerender
   });
-  wrapped.update(); //forcing the component to rerender
 
-  // check that the value of textarea is updated
-  expect(wrapped.find('textarea').prop('value')).toEqual('new comment');
-});
-
-it('clears form on submit', () => {
-  //enter some text in form
-  wrapped.find('textarea').simulate('change', {
-    target: { value: 'another comment' }
+  it('has a text area that a user can type in', () => {
+    // check that the value of textarea is updated
+    expect(wrapped.find('textarea').prop('value')).toEqual('new comment');
   });
-  wrapped.update();
 
-  //submit form
-  wrapped.find('form').simulate('submit');
-  wrapped.update();
-  expect(wrapped.find('textarea').prop('value')).toEqual('');
+  it('clears form on submit', () => {
+    //submit form
+    wrapped.find('form').simulate('submit');
+    wrapped.update();
+    expect(wrapped.find('textarea').prop('value')).toEqual('');
+  });
 })
 
 // can also use shallow method here
