@@ -1,4 +1,5 @@
-import { SAVE_COMMENT } from "actions/types";
+import { SAVE_COMMENT, FETCH_COMMENTS } from "actions/types";
+import axios from "axios";
 
 export function saveComment(comment) {
   return {
@@ -6,3 +7,16 @@ export function saveComment(comment) {
     payload: comment
   };
 }
+
+export function fetchComments() {
+  const response = axios.get('http://jsonplaceholder.typicode.com/comments');
+
+  return {
+    type: FETCH_COMMENTS,
+    payload: response
+  };
+}
+
+// using http
+// our browser might complain about loading up a security 
+// source from a non-secure page, that's not strictly required
