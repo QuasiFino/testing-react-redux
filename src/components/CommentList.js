@@ -11,7 +11,6 @@ class CommentList extends React.Component {
   render() {
     return(
       <div>
-        <h1>Comments</h1>
         <ul>
           {this.renderedComments()}
         </ul>
