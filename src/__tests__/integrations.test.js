@@ -29,13 +29,13 @@ it('can fetch a list of comments and display them', done => {
 
   // introduce a tiny little pause to cope with moxios
   // expect to find a list of comments, 500 Li's
-  setTimeout(() => {
+  moxios.wait(() => {
     wrapped.update();
     
     expect(wrapped.find('li').length).toEqual(2);
     done(); //the test runs till this func is called
     wrapped.unmount();
-  }, 100);
+  });
 });
 
 // integration test -  to test the etire application
