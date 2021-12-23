@@ -1,43 +1,45 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import Root from 'Root';
 import CommentBox from 'components/CommentBox';
 
 let wrapped;
 
 beforeEach(() =>{
-  wrapped = mount(<CommentBox />);
+  wrapped = mount(
+    <Root>
+      <CommentBox />
+    </Root>);
 });
 
 afterEach(() => {
   wrapped.unmount();
 });
 
-it('has a text area and a button', () => {
+it('has a text area and two buttons', () => {
   expect(wrapped.find('textarea').length).toEqual(1);
-  expect(wrapped.find('button').length).toEqual(1);
+  expect(wrapped.find('button').length).toEqual(2);
 });
 
-it('has a text area that a user can type in', () => {
-  wrapped.find('textarea').simulate('change', {
-    target: { value: 'new comment' } //(event) passed to handlleChange
+describe('the text area', () => {
+  beforeEach(() => {
+    wrapped.find('textarea').simulate('change', {
+      target: { value: 'new comment' } //(event) passed to handlleChange
+    });
+    wrapped.update(); //forcing the component to rerender
   });
-  wrapped.update(); //forcing the component to rerender
 
-  // check that the value of textarea is updated
-  expect(wrapped.find('textarea').prop('value')).toEqual('new comment');
-});
-
-it('clears form on submit', () => {
-  //enter some text in form
-  wrapped.find('textarea').simulate('change', {
-    target: { value: 'another comment' }
+  it('has a text area that a user can type in', () => {
+    // check that the value of textarea is updated
+    expect(wrapped.find('textarea').prop('value')).toEqual('new comment');
   });
-  wrapped.update();
 
-  //submit form
-  wrapped.find('form').simulate('submit');
-  wrapped.update();
-  expect(wrapped.find('textarea').prop('value')).toEqual('');
+  it('clears form on submit', () => {
+    //submit form
+    wrapped.find('form').simulate('submit');
+    wrapped.update();
+    expect(wrapped.find('textarea').prop('value')).toEqual('');
+  });
 })
 
 // can also use shallow method here
